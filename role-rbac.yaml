@@ -1,0 +1,24 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: deploy-script
+rules:
+  - apiGroups: ["apps"]
+    verbs: ["get","create","list","update", "delete"]
+    resources: ["deployments"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: deploy-test
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: deploy-script
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: default
